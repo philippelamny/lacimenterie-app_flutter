@@ -14,9 +14,9 @@ class AuthApiLacimenterie extends ApiLacimenterieAbstract {
     return token;
   }
 
-  Future<void> getGeneralInfoAction() async {
+  Future<dynamic> getGeneralInfoAction() async {
     var response = await this.get('site/agency/general-infos');
-    print('Response status: ${response.body}');
+    return jsonDecode(response.body);
   }
 
 }

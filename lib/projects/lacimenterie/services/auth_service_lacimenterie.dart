@@ -20,7 +20,7 @@ class AuthServiceLacimenterie implements AuthServiceAbstract {
     String token = await api.connectAction(email, password);
     if (token != '') {
       RequestServiceLacimenterie.updateToken(token);
-      var generalInfos = api.getGeneralInfoAction();
+      var generalInfos = await api.getGeneralInfoAction();
       this._user = new UserModelLacimenterie(token, generalInfos);
     }
     

@@ -6,7 +6,7 @@ class UserModelLacimenterie implements UserModelAbstract {
   String _id;
   var _generalInfos;
 
-  UserModelLacimenterie(String id, generalInfos) {
+  UserModelLacimenterie(String id, var generalInfos) {
     this._id = id;
     this._generalInfos = generalInfos;
   }
