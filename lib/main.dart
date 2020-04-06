@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:global_configuration/global_configuration.dart';
-import 'package:lacimenterie/bundles/authenticate/services/auth_service_abstract.dart';
 import 'package:lacimenterie/bundles/root/pages/root_page.dart';
 import 'package:lacimenterie/projects/lacimenterie/services/auth_service_lacimenterie.dart';
 

@@ -42,7 +42,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
       String userId = "";
       try {
         if (_isLoginForm) {
-          //userId = await widget.auth.signIn(_email, _password);
+          userId = await widget.auth.signIn(_email, _password);
           print('Signed in: $userId');
         } else {
           //userId = await widget.auth.signUp(_email, _password);
@@ -55,7 +55,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
         });
 
         if (userId.length > 0 && userId != null && _isLoginForm) {
-          //widget.loginCallback();
+          widget.loginCallback();
         }
       } catch (e) {
         print('Error: $e');

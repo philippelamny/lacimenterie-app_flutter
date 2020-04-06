@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
 import 'package:lacimenterie/bundles/authenticate/services/auth_service_abstract.dart';
 
 class HomePage extends StatefulWidget {
@@ -28,7 +27,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    
     return null;
   }
 

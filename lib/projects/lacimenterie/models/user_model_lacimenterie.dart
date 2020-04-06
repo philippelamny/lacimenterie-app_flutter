@@ -4,9 +4,15 @@ import 'package:lacimenterie/bundles/authenticate/models/user_model_abstract.dar
 class UserModelLacimenterie implements UserModelAbstract {
 
   String _id;
+  var _generalInfos;
 
-  userModelLacimenterie({id: ''}) {
+  UserModelLacimenterie(String id, generalInfos) {
     this._id = id;
+    this._generalInfos = generalInfos;
+  }
+
+  void getGeneralInfos() {
+    return this._generalInfos;
   }
 
   @override
