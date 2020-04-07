@@ -4,6 +4,10 @@ import 'package:lacimenterie/bundles/authenticate/models/user_model_abstract.dar
 class UserModelLacimenterie implements UserModelAbstract {
 
   String _id;
+  ///result: true
+  ///agencyName: "lacimenterie archi A"
+  ///userName: "PHILIPPE LAM"
+  ///photo: "http:/
   var _generalInfos;
 
   UserModelLacimenterie(String id, var generalInfos) {
@@ -11,7 +15,7 @@ class UserModelLacimenterie implements UserModelAbstract {
     this._generalInfos = generalInfos;
   }
 
-  void getGeneralInfos() {
+  dynamic getGeneralInfos() {
     return this._generalInfos;
   }
 

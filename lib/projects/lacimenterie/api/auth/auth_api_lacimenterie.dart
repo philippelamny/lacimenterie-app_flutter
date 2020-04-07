@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:lacimenterie/projects/lacimenterie/api/api_lacimenterie.dart';
+import 'package:lacimenterie/projects/lacimenterie/api/api_lacimenterie_abstract.dart';
 
 class AuthApiLacimenterie extends ApiLacimenterieAbstract {
   
