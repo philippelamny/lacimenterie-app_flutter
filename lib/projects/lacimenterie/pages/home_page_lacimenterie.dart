@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lacimenterie/projects/lacimenterie/models/user_model_lacimenterie.dart';
 import 'package:lacimenterie/projects/lacimenterie/services/auth_service_lacimenterie.dart';
-
+import 'package:cached_network_image/cached_network_image.dart';
 
 
 class HomePageLacimenterie extends StatefulWidget{
@@ -88,26 +87,29 @@ class _HomePageLacimenterieState extends State<HomePageLacimenterie> {
                     children: <Widget>[
                       Padding(
                         padding: const EdgeInsets.all(12.0),
-                        child: Icon(Icons.create, size: 72.0),
+                        child:  CachedNetworkImage(
+                          placeholder: (context, url) => CircularProgressIndicator(),
+                          imageUrl: this._generalInfo['photo'],
+                           //Image.network(this._generalInfo['photo'],
+                        ),
                       ),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              this._generalInfo != null ? this._generalInfo['agencyName'] : ''
+                              this._generalInfo['agencyName']
                               , style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                               )
                             ),
-                            Text('Virtuell, 00 virtuell, VR'),
+                            Text(this._generalInfo['userName']),
                           ],
                         ),
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: <Widget>[
-                          Text('08:30 - 12:30 Uhr'),
                           Text(''),
                           Text(''),
                         ],
@@ -118,87 +120,7 @@ class _HomePageLacimenterieState extends State<HomePageLacimenterie> {
                 ],
               ),
             ),
-            Expanded(
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: DashboardButton(
-                      icon: Icons.person,
-                      text: 'Profil',
-                      onTap: () {},
-                    ),
-                  ),
-                  Expanded(
-                    child: DashboardButton(
-                      icon: Icons.person,
-                      text: 'Blackboard',
-                      onTap: () {},
-                    ),
-                  ),
-                  Expanded(
-                    child: DashboardButton(
-                      icon: Icons.person,
-                      text: 'Campus-Nachrichten',
-                      onTap: () {},
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: DashboardButton(
-                      icon: Icons.person,
-                      text: 'Veranstaltungen',
-                      onTap: () {},
-                    ),
-                  ),
-                  Expanded(
-                    child: DashboardButton(
-                      icon: Icons.person,
-                      text: 'Termine',
-                      onTap: () {},
-                    ),
-                  ),
-                  Expanded(
-                    child: DashboardButton(
-                      icon: Icons.person,
-                      text: 'Prufengen',
-                      onTap: () {},
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: DashboardButton(
-                      icon: Icons.person,
-                      text: 'Ansprechpartner',
-                      onTap: () {},
-                    ),
-                  ),
-                  Expanded(
-                    child: DashboardButton(
-                      icon: Icons.person,
-                      text: 'Modulportal',
-                      onTap: () {},
-                    ),
-                  ),
-                  Expanded(
-                    child: DashboardButton(
-                      icon: Icons.book,
-                      text: 'Literaturrecherche',
-                      onTap: () {},
-                    ),
-                  ),
-                ],
-              ),
-            ),
+           
           ],
         ),
       ),
