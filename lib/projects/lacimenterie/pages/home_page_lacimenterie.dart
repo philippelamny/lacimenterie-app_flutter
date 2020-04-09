@@ -207,7 +207,7 @@ class _HomePageLacimenterieState extends State<HomePageLacimenterie>  {
                   Row(
                     children: <Widget>[
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 5, 16, 5),
+                        padding: const EdgeInsets.fromLTRB(17, 5, 38, 5),
                         child: CachedNetworkImage(
                           height: 50,
                           fit: BoxFit.scaleDown,
