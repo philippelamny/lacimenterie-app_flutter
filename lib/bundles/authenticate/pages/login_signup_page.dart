@@ -145,7 +145,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
         child: new Form(
           key: _formKey,
           child: new ListView(
-            shrinkWrap: true,
+            shrinkWrap: false,
             children: <Widget>[
               showLogo(),
               showEmailInput(),

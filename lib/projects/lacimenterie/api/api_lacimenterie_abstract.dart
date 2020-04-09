@@ -7,6 +7,10 @@ import 'package:lacimenterie/projects/lacimenterie/services/request_service_laci
 
 abstract class ApiLacimenterieAbstract {
   
+  static String getPathForUrlRelative(String urlRelative) {
+    return GlobalConfiguration().getString('api-url') + '/' + urlRelative;
+  }
+
   static String getApiPath() {
     return GlobalConfiguration().getString('api-url') + '/api/';
   }
