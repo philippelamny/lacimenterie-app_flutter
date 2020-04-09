@@ -166,6 +166,13 @@ class _HomePageLacimenterieState extends State<HomePageLacimenterie>  {
         title: Text('Lacimenterie | Dashboard'),
         actions: <Widget>[
           PopupMenuButton<int>(
+            onSelected: (value) {
+              switch(value) {
+                case 0:
+                  widget.logoutCallback();
+                  break;
+              }
+            },
             icon: Icon(Icons.more_vert),
             itemBuilder: (BuildContext context) {
               return <PopupMenuEntry<int>>[
@@ -200,8 +207,10 @@ class _HomePageLacimenterieState extends State<HomePageLacimenterie>  {
                   Row(
                     children: <Widget>[
                       Padding(
-                        padding: const EdgeInsets.all(12.0),
+                        padding: const EdgeInsets.fromLTRB(0, 5, 16, 5),
                         child: CachedNetworkImage(
+                          height: 50,
+                          fit: BoxFit.scaleDown,
                           placeholder: (context, url) =>
                               CircularProgressIndicator(),
                           imageUrl: this._generalInfo['photo'],
@@ -209,23 +218,19 @@ class _HomePageLacimenterieState extends State<HomePageLacimenterie>  {
                         ),
                       ),
                       Expanded(
+                        
                         child: Column(
+                          
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(this._generalInfo['agencyName'],
+                            textAlign: TextAlign.left,
                                 style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                 )),
-                            Text(this._generalInfo['userName']),
+                            Text(this._generalInfo['userName'], textAlign:TextAlign.left), 
                           ],
                         ),
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: <Widget>[
-                          Text(''),
-                          Text(''),
-                        ],
                       ),
                     ],
                   ),
@@ -234,52 +239,6 @@ class _HomePageLacimenterieState extends State<HomePageLacimenterie>  {
               ),
             ),
             this.buildListContracts()
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class DashboardButton extends StatelessWidget {
-  const DashboardButton({
-    Key key,
-    @required this.icon,
-    @required this.text,
-    this.onTap,
-  }) : super(key: key);
-
-  final IconData icon;
-  final String text;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      child: InkWell(
-        onTap: onTap,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            FractionallySizedBox(
-              widthFactor: 0.6,
-              child: FittedBox(
-                child: Icon(icon),
-              ),
-            ),
-            SizedBox(height: 16.0),
-            Text(
-              text,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
-              textScaleFactor: 0.8,
-            ),
-            SizedBox(height: 4.0),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Divider(height: 1.0),
-            ),
           ],
         ),
       ),
