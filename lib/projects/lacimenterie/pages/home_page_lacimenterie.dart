@@ -16,7 +16,7 @@ class HomePageLacimenterie extends StatefulWidget {
   State<StatefulWidget> createState() => new _HomePageLacimenterieState();
 }
 
-class _HomePageLacimenterieState extends State<HomePageLacimenterie> {
+class _HomePageLacimenterieState extends State<HomePageLacimenterie>  {
   dynamic _generalInfo;
   List _byContractPhase;
 
@@ -157,7 +157,7 @@ class _HomePageLacimenterieState extends State<HomePageLacimenterie> {
 
   @override
   Widget build(BuildContext context) {
-    if (this._generalInfo == null) {
+    if (this._generalInfo == null || this._byContractPhase == null) {
       return this.buildWaitingScreen();
     }
 
@@ -190,7 +190,7 @@ class _HomePageLacimenterieState extends State<HomePageLacimenterie> {
         data: IconThemeData(
           color: Theme.of(context).primaryColor,
         ),
-        child: Column(
+        child: ListView(
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
