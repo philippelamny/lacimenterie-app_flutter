@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lacimenterie/bundles/tools/math/math_tools.dart';
 import 'package:lacimenterie/projects/lacimenterie/api/contract/contract_api_lacimenterie.dart';
+import 'package:lacimenterie/projects/lacimenterie/pages/contract/contract_detail_page.dart';
 import 'package:lacimenterie/projects/lacimenterie/services/auth_service_lacimenterie.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -125,14 +126,14 @@ class _HomePageLacimenterieState extends State<HomePageLacimenterie> {
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         subtitle: Column(children: this.makeListPhases(infoBarPhase['phases'])),
-        /*trailing:
-        Icon(Icons.keyboard_arrow_right, size: 30.0),*/
-        /*onTap: () {
+        //trailing:
+        //Icon(Icons.keyboard_arrow_right, size: 30.0),
+        onTap: () {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => DetailPage(infoBarPhase: infoBarPhase)));
-      },*/
+                builder: (context) => ContractDetailPageLacimenterie(auth: widget.auth, userId: widget.userId, logoutCallback : widget.logoutCallback, contractId: infoBarPhase['idContract'],)));
+        },
       );
 
   Card makeCard(contractByPhase) => Card(
@@ -165,7 +166,6 @@ class _HomePageLacimenterieState extends State<HomePageLacimenterie> {
                     fit: BoxFit.scaleDown,
                     placeholder: (context, url) => CircularProgressIndicator(),
                     imageUrl: this._generalInfo['photo'],
-                    //Image.network(this._generalInfo['photo'],
                   ),
                 ),
                 Expanded(
