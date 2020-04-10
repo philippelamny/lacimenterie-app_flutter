@@ -16,7 +16,7 @@ class HomePageLacimenterie extends StatefulWidget {
   State<StatefulWidget> createState() => new _HomePageLacimenterieState();
 }
 
-class _HomePageLacimenterieState extends State<HomePageLacimenterie>  {
+class _HomePageLacimenterieState extends State<HomePageLacimenterie> {
   dynamic _generalInfo;
   List _byContractPhase;
 
@@ -74,17 +74,22 @@ class _HomePageLacimenterieState extends State<HomePageLacimenterie>  {
                   // tag: 'hero',
                   child: LinearProgressIndicator(
                       backgroundColor: Color.fromRGBO(209, 224, 224, 0.2),
-                      value: MathTools.calcPourcentage(phase['total'], phase['totalRemaining']), // infoBarPhase
-                      valueColor: AlwaysStoppedAnimation(phase['totalRemaining'] >= 0 ? Colors.green : Colors.red)),
+                      value: MathTools.calcPourcentage(phase['total'],
+                          phase['totalRemaining']), // infoBarPhase
+                      valueColor: AlwaysStoppedAnimation(
+                          phase['totalRemaining'] >= 0
+                              ? Colors.green
+                              : Colors.red)),
                 )),
             Expanded(
               flex: 5,
               child: Padding(
                   padding: EdgeInsets.only(left: 10.0),
-                  child: Text(phase['totalRemaining'].toString() +
+                  child: Text(
+                    phase['totalRemaining'].toString() +
                         ' / ' +
                         phase['total'].toString(),
-                        textAlign: TextAlign.right,
+                    textAlign: TextAlign.right,
                   )),
             )
           ],
@@ -119,10 +124,10 @@ class _HomePageLacimenterieState extends State<HomePageLacimenterie>  {
           infoBarPhase['projectName'],
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        subtitle: Column(children: this.makeListPhases(infoBarPhase['phases'])) ,
+        subtitle: Column(children: this.makeListPhases(infoBarPhase['phases'])),
         /*trailing:
         Icon(Icons.keyboard_arrow_right, size: 30.0),*/
-    /*onTap: () {
+        /*onTap: () {
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -138,36 +143,58 @@ class _HomePageLacimenterieState extends State<HomePageLacimenterie>  {
         ),
       );
 
-  Widget buildListContracts() {
-    if (this._byContractPhase == null) {
-      return this.buildWaitingScreen();
+  List<Widget> buildListContracts() {
+    final List<Widget> listRow = [];
+    for (final contract in this._byContractPhase) {
+      listRow.add(makeCard(contract));
     }
-
-    return ListView.builder(
-      scrollDirection: Axis.vertical,
-      shrinkWrap: true,
-      itemCount: this._byContractPhase.length,
-      itemBuilder: (BuildContext context, int index) {
-        return makeCard(this._byContractPhase[index]);
-      },
-    );
+    return listRow;
   }
 
+  Widget buildHeader() => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Column(
+          
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(17, 5, 38, 5),
+                  child: CachedNetworkImage(
+                    height: 50,
+                    fit: BoxFit.scaleDown,
+                    placeholder: (context, url) => CircularProgressIndicator(),
+                    imageUrl: this._generalInfo['photo'],
+                    //Image.network(this._generalInfo['photo'],
+                  ),
+                ),
+                Expanded(
+                  child: Column(
+                    
+                    children: <Widget>[
+                      Text(this._generalInfo['agencyName'],
+                          textAlign: TextAlign.left,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                          )),
+                      Text(this._generalInfo['userName'],
+                          textAlign: TextAlign.left),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            Divider(height: 1.0),
+          ],
+        ),
+      );
 
-
-  @override
-  Widget build(BuildContext context) {
-    if (this._generalInfo == null || this._byContractPhase == null) {
-      return this.buildWaitingScreen();
-    }
-
-    return Scaffold(
-      appBar: AppBar(
+  Widget buildAppBar() => AppBar(
         title: Text('Lacimenterie | Dashboard'),
         actions: <Widget>[
           PopupMenuButton<int>(
             onSelected: (value) {
-              switch(value) {
+              switch (value) {
                 case 0:
                   widget.logoutCallback();
                   break;
@@ -192,53 +219,26 @@ class _HomePageLacimenterieState extends State<HomePageLacimenterie>  {
             },
           ),
         ],
-      ),
+      );
+
+  @override
+  Widget build(BuildContext context) {
+    if (this._generalInfo == null || this._byContractPhase == null) {
+      return this.buildWaitingScreen();
+    }
+
+    return Scaffold(
+      appBar: this.buildAppBar(),
       body: IconTheme.merge(
         data: IconThemeData(
           color: Theme.of(context).primaryColor,
         ),
         child: ListView(
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(17, 5, 38, 5),
-                        child: CachedNetworkImage(
-                          height: 50,
-                          fit: BoxFit.scaleDown,
-                          placeholder: (context, url) =>
-                              CircularProgressIndicator(),
-                          imageUrl: this._generalInfo['photo'],
-                          //Image.network(this._generalInfo['photo'],
-                        ),
-                      ),
-                      Expanded(
-                        
-                        child: Column(
-                          
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(this._generalInfo['agencyName'],
-                            textAlign: TextAlign.left,
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                )),
-                            Text(this._generalInfo['userName'], textAlign:TextAlign.left), 
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  Divider(height: 1.0),
-                ],
-              ),
+            this.buildHeader(),
+            Column(
+              children: this.buildListContracts(),
             ),
-            this.buildListContracts()
           ],
         ),
       ),
