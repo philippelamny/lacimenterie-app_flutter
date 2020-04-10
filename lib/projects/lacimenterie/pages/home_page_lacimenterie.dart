@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:lacimenterie/bundles/tools/math/math_tools.dart';
+import 'package:lacimenterie/bundles/widgets/loader/waiting_screen_loader_widget.dart';
 import 'package:lacimenterie/projects/lacimenterie/api/contract/contract_api_lacimenterie.dart';
-import 'package:lacimenterie/projects/lacimenterie/pages/contract/contract_detail_page.dart';
 import 'package:lacimenterie/projects/lacimenterie/services/auth_service_lacimenterie.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:lacimenterie/projects/lacimenterie/widgets/app_bar_widget_lacimenterie.dart';
+import 'package:lacimenterie/projects/lacimenterie/widgets/header/agence_padding_header_widget.dart';
+import 'package:lacimenterie/projects/lacimenterie/widgets/list/contract/contracts_phases_list_widget.dart';
 
 class HomePageLacimenterie extends StatefulWidget {
   HomePageLacimenterie({Key key, this.auth, this.userId, this.logoutCallback})
@@ -39,206 +41,22 @@ class _HomePageLacimenterieState extends State<HomePageLacimenterie> {
     });
   }
 
-  Widget buildWaitingScreen() {
-    return Scaffold(
-      body: Container(
-        alignment: Alignment.center,
-        child: CircularProgressIndicator(),
-      ),
-    );
-  }
-
-  List<Widget> makeListPhases(phases) {
-    final List<Widget> listRow = [];
-    for (final phase in phases) {
-      listRow.add(Column(children: [
-        Row(children: [
-          Expanded(
-            flex: 4,
-            child: Text(
-              phase['phaseName'],
-            ),
-          ),
-          Expanded(
-            flex: 1,
-            child: Text(
-              phase['daysRemainingEq'].round().toString() + ' j.',
-              textAlign: TextAlign.right,
-            ),
-          )
-        ]),
-        Row(
-          children: <Widget>[
-            Expanded(
-                flex: 5,
-                child: Container(
-                  // tag: 'hero',
-                  child: LinearProgressIndicator(
-                      backgroundColor: Color.fromRGBO(209, 224, 224, 0.2),
-                      value: MathTools.calcPourcentage(phase['total'],
-                          phase['totalRemaining']), // infoBarPhase
-                      valueColor: AlwaysStoppedAnimation(
-                          phase['totalRemaining'] >= 0
-                              ? Colors.green
-                              : Colors.red)),
-                )),
-            Expanded(
-              flex: 5,
-              child: Padding(
-                  padding: EdgeInsets.only(left: 10.0),
-                  child: Text(
-                    phase['totalRemaining'].toString() +
-                        ' / ' +
-                        phase['total'].toString(),
-                    textAlign: TextAlign.right,
-                  )),
-            )
-          ],
-        )
-      ]));
-    }
-
-    return listRow;
-  }
-
-  ListTile makeListTile(infoBarPhase) => ListTile(
-        contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-        leading: Container(
-          padding: EdgeInsets.only(right: 12.0),
-          decoration: new BoxDecoration(
-              border: new Border(
-                  right: new BorderSide(width: 1.0, color: Colors.white24))),
-          child: CachedNetworkImage(
-            placeholder: (context, url) => CachedNetworkImage(
-              fit: BoxFit.scaleDown,
-              width: 60,
-              imageUrl: ContractApiLacimenterie.getDefaultImageContract(),
-            ),
-            fit: BoxFit.scaleDown,
-            width: 60,
-            imageUrl: infoBarPhase['photo'] != null
-                ? infoBarPhase['photo']
-                : ContractApiLacimenterie.getDefaultImageContract(),
-          ),
-        ),
-        title: Text(
-          infoBarPhase['projectName'],
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        subtitle: Column(children: this.makeListPhases(infoBarPhase['phases'])),
-        //trailing:
-        //Icon(Icons.keyboard_arrow_right, size: 30.0),
-        onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => ContractDetailPageLacimenterie(auth: widget.auth, userId: widget.userId, logoutCallback : widget.logoutCallback, contractId: infoBarPhase['idContract'],)));
-        },
-      );
-
-  Card makeCard(contractByPhase) => Card(
-        elevation: 8.0,
-        margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-        child: Container(
-          child: makeListTile(contractByPhase),
-        ),
-      );
-
-  List<Widget> buildListContracts() {
-    final List<Widget> listRow = [];
-    for (final contract in this._byContractPhase) {
-      listRow.add(makeCard(contract));
-    }
-    return listRow;
-  }
-
-  Widget buildHeader() => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Column(
-          
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(17, 5, 38, 5),
-                  child: CachedNetworkImage(
-                    height: 50,
-                    fit: BoxFit.scaleDown,
-                    placeholder: (context, url) => CircularProgressIndicator(),
-                    imageUrl: this._generalInfo['photo'],
-                  ),
-                ),
-                Expanded(
-                  child: Column(
-                    
-                    children: <Widget>[
-                      Text(this._generalInfo['agencyName'],
-                          textAlign: TextAlign.left,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                          )),
-                      Text(this._generalInfo['userName'],
-                          textAlign: TextAlign.left),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            Divider(height: 1.0),
-          ],
-        ),
-      );
-
-  Widget buildAppBar() => AppBar(
-        title: Text('Lacimenterie | Dashboard'),
-        actions: <Widget>[
-          PopupMenuButton<int>(
-            onSelected: (value) {
-              switch (value) {
-                case 0:
-                  widget.logoutCallback();
-                  break;
-              }
-            },
-            icon: Icon(Icons.more_vert),
-            itemBuilder: (BuildContext context) {
-              return <PopupMenuEntry<int>>[
-                PopupMenuItem(
-                  value: 0,
-                  child: Text('Déconnexion'),
-                ),
-                PopupMenuItem(
-                  value: 1,
-                  child: Text('Dashboard'),
-                ),
-                PopupMenuItem(
-                  value: 2,
-                  child: Text('FAQ'),
-                ),
-              ];
-            },
-          ),
-        ],
-      );
-
   @override
   Widget build(BuildContext context) {
     if (this._generalInfo == null || this._byContractPhase == null) {
-      return this.buildWaitingScreen();
+      return WaitingScreenLoaderWidget();
     }
-
+    
     return Scaffold(
-      appBar: this.buildAppBar(),
+      appBar: AppBarWidgetLacimenterie(widget.auth, widget.logoutCallback),
       body: IconTheme.merge(
         data: IconThemeData(
           color: Theme.of(context).primaryColor,
         ),
         child: ListView(
           children: <Widget>[
-            this.buildHeader(),
-            Column(
-              children: this.buildListContracts(),
-            ),
+            AgencePaddingHeaderWidget(this._generalInfo['photo'], this._generalInfo['agencyName'], this._generalInfo['userName']),
+            ContractsPhasesListWidget(contractsPhases: this._byContractPhase, auth: widget.auth, userId: widget.userId, logoutCallback : widget.logoutCallback,)
           ],
         ),
       ),

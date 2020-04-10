@@ -3,6 +3,7 @@ import 'package:lacimenterie/bundles/authenticate/class/enum/auth_status_enum.da
 import 'package:lacimenterie/bundles/authenticate/pages/login_signup_page.dart';
 import 'package:lacimenterie/bundles/authenticate/services/auth_service_abstract.dart';
 import 'package:lacimenterie/bundles/root/pages/home_page.dart';
+import 'package:lacimenterie/bundles/widgets/loader/waiting_screen_loader_widget.dart';
 
 class RootPage extends StatefulWidget {
   RootPage({this.auth});
@@ -49,20 +50,11 @@ class _RootPageState extends State<RootPage> {
     });
   }
 
-  Widget buildWaitingScreen() {
-    return Scaffold(
-      body: Container(
-        alignment: Alignment.center,
-        child: CircularProgressIndicator(),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     switch (authStatus) {
       case AuthStatus.NOT_DETERMINED:
-        return buildWaitingScreen();
+        return WaitingScreenLoaderWidget();
         break;
       case AuthStatus.NOT_LOGGED_IN:
         return new LoginSignupPage(
@@ -78,10 +70,10 @@ class _RootPageState extends State<RootPage> {
             logoutCallback: logoutCallback,
           );
         } else
-          return buildWaitingScreen();
+          return WaitingScreenLoaderWidget();
         break;
       default:
-        return buildWaitingScreen();
+        return WaitingScreenLoaderWidget();
     }
   }
 }
