@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:lacimenterie/bundles/widgets/loader/waiting_screen_loader_widget.dart';
 import 'package:lacimenterie/projects/lacimenterie/api/contract/contract_api_lacimenterie.dart';
 import 'package:lacimenterie/projects/lacimenterie/services/auth_service_lacimenterie.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:lacimenterie/projects/lacimenterie/widgets/app_bar_widget_lacimenterie.dart';
 import 'package:lacimenterie/projects/lacimenterie/widgets/header/agence_padding_header_widget.dart';
 import 'package:lacimenterie/projects/lacimenterie/widgets/list/contract/contracts_phases_list_widget.dart';

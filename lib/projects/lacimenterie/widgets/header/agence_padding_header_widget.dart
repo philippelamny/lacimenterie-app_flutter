@@ -11,7 +11,7 @@ class AgencePaddingHeaderWidget extends Padding {
             Row(
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(17, 5, 38, 5),
+                  padding: const EdgeInsets.fromLTRB(17, 5,0, 5),
                   child: CachedNetworkImage(
                     height: 50,
                     fit: BoxFit.scaleDown,
