@@ -21,30 +21,28 @@ class _RootPageState extends State<RootPage> {
   @override
   void initState() {
     super.initState();
-    widget.auth.getCurrentUser().then((user) {
-      setState(() {
-        if (user != null) {
-          _userId = user.getId();
-        }
-        authStatus =
-            _userId == null ? AuthStatus.NOT_LOGGED_IN : AuthStatus.LOGGED_IN;
-      });
+    var user = widget.auth.getCurrentUser();
+    
+    setState(() {
+      if (user != null) {
+        _userId = user.getId();
+      }
+      authStatus =
+          _userId == null ? AuthStatus.NOT_LOGGED_IN : AuthStatus.LOGGED_IN;
     });
   }
 
   void loginCallback() {
-    widget.auth.getCurrentUser().then((user) {
-      setState(() {
-        _userId = user.getId();
-      });
-    });
+    var user = widget.auth.getCurrentUser();
     setState(() {
+      _userId = user.getId();
       authStatus = AuthStatus.LOGGED_IN;
     });
   }
 
   void logoutCallback() {
     setState(() {
+      /// TODO : Call Api logout
       authStatus = AuthStatus.NOT_LOGGED_IN;
       _userId = "";
     });

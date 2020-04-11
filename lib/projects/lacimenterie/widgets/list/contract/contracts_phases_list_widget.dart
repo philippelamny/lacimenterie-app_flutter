@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:lacimenterie/bundles/tools/math/math_tools.dart';
 import 'package:lacimenterie/projects/lacimenterie/api/contract/contract_api_lacimenterie.dart';
-import 'package:lacimenterie/projects/lacimenterie/pages/contract/contract_detail_page.dart';
+import 'package:lacimenterie/projects/lacimenterie/pages/contract/contract_detail_page_lacimenterie.dart';
 import 'package:lacimenterie/projects/lacimenterie/services/auth_service_lacimenterie.dart';
 
 class ContractsPhasesListWidget extends StatelessWidget {

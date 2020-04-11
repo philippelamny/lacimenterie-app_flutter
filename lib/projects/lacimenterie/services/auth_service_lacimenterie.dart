@@ -31,7 +31,7 @@ class AuthServiceLacimenterie implements AuthServiceAbstract {
     return "";
   }
 
-  Future<UserModelLacimenterie>getCurrentUser() async {
+  UserModelLacimenterie getCurrentUser() {
     if (this._user == null) this._user = new UserModelLacimenterie(null, {});
     return this._user;
   }

@@ -5,7 +5,7 @@ abstract class AuthServiceAbstract {
 
   Future<String> signUp(String email, String password);
 
-  Future<UserModelAbstract> getCurrentUser();
+  UserModelAbstract getCurrentUser();
 
   Future<void> sendEmailVerification();
 
