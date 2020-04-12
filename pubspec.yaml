@@ -27,6 +27,7 @@ dependencies:
   global_configuration: ^1.5.0
   http: ^0.12.0+4
   flutter_launcher_icons: "^0.7.3"
+  provider: ^3.0.0
   
 dev_dependencies:
   flutter_test:

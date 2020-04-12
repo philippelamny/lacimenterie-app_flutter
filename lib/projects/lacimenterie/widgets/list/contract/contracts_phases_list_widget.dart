@@ -3,17 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:lacimenterie/bundles/tools/math/math_tools.dart';
 import 'package:lacimenterie/projects/lacimenterie/api/contract/contract_api_lacimenterie.dart';
 import 'package:lacimenterie/projects/lacimenterie/pages/contract/contract_detail_page_lacimenterie.dart';
-import 'package:lacimenterie/projects/lacimenterie/services/auth_service_lacimenterie.dart';
 
 class ContractsPhasesListWidget extends StatelessWidget {
 
   final List contractsPhases;
-  final AuthServiceLacimenterie auth;
-  final VoidCallback logoutCallback;
-  final String userId;
   
-
-  const ContractsPhasesListWidget({Key key, this.contractsPhases, this.auth, this.userId, this.logoutCallback}) : super(key: key);
+  const ContractsPhasesListWidget({Key key, this.contractsPhases}) : super(key: key);
 
 
   List<Widget> makeListPhases(context, phases) {
@@ -100,7 +95,7 @@ class ContractsPhasesListWidget extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => ContractDetailPageLacimenterie(auth: this.auth, userId: this.userId, logoutCallback : this.logoutCallback, contractId: infoBarPhase['idContract'],)));
+                builder: (context) => ContractDetailPageLacimenterie(contractId: infoBarPhase['idContract'],)));
         },
       );
 
@@ -122,7 +117,6 @@ class ContractsPhasesListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     return Column(children : this.buildListContracts(context));
   }
 

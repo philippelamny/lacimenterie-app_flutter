@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:lacimenterie/bundles/authenticate/services/auth_service_abstract.dart';
+import 'package:lacimenterie/projects/lacimenterie/services/auth_service_lacimenterie.dart';
+import 'package:provider/provider.dart';
 
 class LoginSignupPage extends StatefulWidget {
 
-  LoginSignupPage({this.auth, this.loginCallback});
-
-  final AuthServiceAbstract auth;
-  final VoidCallback loginCallback;
+  
 
   @override
   State<StatefulWidget> createState() => new _LoginSignupPageState();
@@ -14,7 +13,7 @@ class LoginSignupPage extends StatefulWidget {
 
 class _LoginSignupPageState extends State<LoginSignupPage> {
   final _formKey = new GlobalKey<FormState>();
-
+  AuthServiceAbstract auth;
   String _email;
   String _password;
   String _errorMessage;
@@ -42,7 +41,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
       String userId = "";
       try {
         if (_isLoginForm) {
-          userId = await widget.auth.signIn(_email, _password);
+          userId = await this.auth.signIn(_email, _password);
           print('Signed in: $userId');
         } else {
           //userId = await widget.auth.signUp(_email, _password);
@@ -53,10 +52,6 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
         setState(() {
           _isLoading = false;
         });
-
-        if (userId.length > 0 && userId != null && _isLoginForm) {
-          widget.loginCallback();
-        }
       } catch (e) {
         print('Error: $e');
         setState(() {
@@ -94,9 +89,11 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
 
   @override
   Widget build(BuildContext context) {
+    this.auth = Provider.of<AuthServiceLacimenterie>(context);
+    
     return new Scaffold(
         appBar: new AppBar(
-          title: new Text('Lacimenterie connexion'),
+          title: new Text('Lacimenterie | connexion'),
         ),
         body: Stack(
           children: <Widget>[

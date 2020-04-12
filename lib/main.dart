@@ -2,8 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:global_configuration/global_configuration.dart';
 import 'package:lacimenterie/bundles/root/pages/root_page.dart';
 import 'package:lacimenterie/projects/lacimenterie/services/auth_service_lacimenterie.dart';
+import 'package:provider/provider.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => AuthServiceLacimenterie(),
+      child: MyApp(),
+    )
+  );
+} 
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -20,7 +28,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.orange,
       ),
-      home: RootPage(auth: new AuthServiceLacimenterie()),
+      home: RootPage(),
     );
   }
 }
