@@ -1,39 +1,60 @@
 import 'package:flutter/material.dart';
+import 'package:lacimenterie/projects/lacimenterie/pages/team/team_list_page_lacimenterie.dart';
 import 'package:lacimenterie/projects/lacimenterie/services/auth_service_lacimenterie.dart';
+import 'package:provider/provider.dart';
 
 class AppBarWidgetLacimenterie extends AppBar {
+
   @override
-  AppBarWidgetLacimenterie(AuthServiceLacimenterie auth, VoidCallback logoutCallback, {Key key})
+  AppBarWidgetLacimenterie(BuildContext context,{Key key})
       : super(
-        key: key
-        ,title: Text('Lacimenterie')
-        ,actions: <Widget>[
-          PopupMenuButton<int>(
-            onSelected: (value) {
-              switch (value) {
-                case 0:
-                  logoutCallback();
-                  break;
-              }
-            },
-            icon: Icon(Icons.more_vert),
-            itemBuilder: (BuildContext context) {
-              return <PopupMenuEntry<int>>[
-                PopupMenuItem(
-                  value: 0,
-                  child: Text('Déconnexion'),
-                ),
-                PopupMenuItem(
-                  value: 1,
-                  child: Text('Dashboard'),
-                ),
-                PopupMenuItem(
-                  value: 2,
-                  child: Text('FAQ'),
-                ),
-              ];
-            },
-          ),
-        ],
-      );
+          key: key,
+          title: Text('Lacimenterie'),
+          actions: <Widget>[
+            PopupMenuButton<int>(
+              onSelected: (value) {
+                AuthServiceLacimenterie auth = Provider.of<AuthServiceLacimenterie>(context);
+                
+                switch (value) {
+                  case 0:
+                    auth.signOut();
+                    break;
+                  case 1:
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => TeamListPageLacimenterie()));
+                }
+              },
+              icon: Icon(Icons.more_vert),
+              itemBuilder: (BuildContext context) {
+                int index = 0;
+                return <PopupMenuEntry<int>>[
+                  PopupMenuItem(
+                    value: index++,
+                    child: Text('Déconnexion'),
+                  ),
+                  PopupMenuItem(
+                    value: index++,
+                    child: Text('Team'),
+                  ),
+                  PopupMenuItem(
+                    value: index++,
+                    child: Text('Dashboard'),
+                  ),
+                  PopupMenuItem(
+                    value: index++,
+                    child: Text('FAQ'),
+                  ),
+                ];
+              },
+            ),
+          ],
+        );
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return null;
+  }
 }

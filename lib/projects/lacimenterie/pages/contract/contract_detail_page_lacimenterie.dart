@@ -48,9 +48,8 @@ class _ContractDetailPageLacimenterieState extends State<ContractDetailPageLacim
       return WaitingScreenLoaderWidget();
     }
 
-    this._contactInfo = null;
     return Scaffold(
-      appBar: AppBarWidgetLacimenterie(this.auth, this.auth.signOut),
+      appBar: AppBarWidgetLacimenterie(context),
       body: IconTheme.merge(
         data: IconThemeData(
           color: Theme.of(context).primaryColor,
