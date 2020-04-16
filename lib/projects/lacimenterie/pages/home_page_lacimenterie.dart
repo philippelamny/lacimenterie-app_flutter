@@ -54,7 +54,7 @@ class _HomePageLacimenterieState extends State<HomePageLacimenterie> {
         child: ListView(
           children: <Widget>[
             AgencePaddingHeaderWidget(this._generalInfo['photo'], this._generalInfo['agencyName'], this._generalInfo['userName']),
-            ContractsPhasesListWidget(contractsPhases: this._byContractPhase)
+            ContractsPhasesListWidget(this._byContractPhase)
           ],
         ),
       ),

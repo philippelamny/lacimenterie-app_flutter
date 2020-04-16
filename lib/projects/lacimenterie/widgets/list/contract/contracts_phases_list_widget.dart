@@ -1,31 +1,32 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:lacimenterie/bundles/tools/math/math_tools.dart';
 import 'package:lacimenterie/projects/lacimenterie/api/contract/contract_api_lacimenterie.dart';
 import 'package:lacimenterie/projects/lacimenterie/pages/contract/contract_detail_page_lacimenterie.dart';
+import 'package:lacimenterie/projects/lacimenterie/widgets/list/list_widget_abstract.dart';
 
-class ContractsPhasesListWidget extends StatelessWidget {
+class ContractsPhasesListWidget extends ListWidgetAbstract {
+  ContractsPhasesListWidget(List list) : super(list);
 
-  final List contractsPhases;
-  
-  const ContractsPhasesListWidget({Key key, this.contractsPhases}) : super(key: key);
+  @override
+  bool isWithSubtitle() {
+    return true;
+  }
 
-
-  List<Widget> makeListPhases(context, phases) {
+  Column buildItemTileSubtitle(context, item) {
     final List<Widget> listRow = [];
-    for (final phase in phases) {
+    for (final subitem in item['phases']) {
       listRow.add(Column(children: [
         Row(children: [
           Expanded(
             flex: 4,
             child: Text(
-              phase['phaseName'],
+              subitem['phaseName'],
             ),
           ),
           Expanded(
             flex: 1,
             child: Text(
-              phase['daysRemainingEq'].round().toString() + ' j.',
+              subitem['daysRemainingEq'].round().toString() + ' j.',
               textAlign: TextAlign.right,
             ),
           )
@@ -38,10 +39,10 @@ class ContractsPhasesListWidget extends StatelessWidget {
                   // tag: 'hero',
                   child: LinearProgressIndicator(
                       backgroundColor: Color.fromRGBO(209, 224, 224, 0.2),
-                      value: MathTools.calcPourcentage(phase['total'],
-                          phase['totalRemaining']), // infoBarPhase
+                      value: MathTools.calcPourcentage(subitem['total'],
+                          subitem['totalRemaining']), // infoBarPhase
                       valueColor: AlwaysStoppedAnimation(
-                          phase['totalRemaining'] >= 0
+                          subitem['totalRemaining'] >= 0
                               ? Colors.green
                               : Colors.red)),
                 )),
@@ -50,9 +51,9 @@ class ContractsPhasesListWidget extends StatelessWidget {
               child: Padding(
                   padding: EdgeInsets.only(left: 10.0),
                   child: Text(
-                    phase['totalRemaining'].toString() +
+                    subitem['totalRemaining'].toString() +
                         ' / ' +
-                        phase['total'].toString(),
+                        subitem['total'].toString(),
                     textAlign: TextAlign.right,
                   )),
             )
@@ -61,63 +62,23 @@ class ContractsPhasesListWidget extends StatelessWidget {
       ]));
     }
 
-    return listRow;
+    return Column(children: listRow);
   }
 
-  ListTile makeListTile(context, infoBarPhase) => ListTile(
-        contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-        leading: Container(
-          padding: EdgeInsets.only(right: 12.0),
-          decoration: new BoxDecoration(
-              border: new Border(
-                  right: new BorderSide(width: 1.0, color: Colors.white24))),
-          child: CachedNetworkImage(
-            placeholder: (context, url) => CachedNetworkImage(
-              fit: BoxFit.scaleDown,
-              width: 60,
-              imageUrl: ContractApiLacimenterie.getDefaultImageContract(),
-            ),
-            fit: BoxFit.scaleDown,
-            width: 60,
-            imageUrl: infoBarPhase['photo'] != null
-                ? infoBarPhase['photo']
-                : ContractApiLacimenterie.getDefaultImageContract(),
-          ),
-        ),
-        title: Text(
-          infoBarPhase['projectName'],
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        subtitle: Column(children: this.makeListPhases(context, infoBarPhase['phases'])),
-        //trailing:
-        //Icon(Icons.keyboard_arrow_right, size: 30.0),
-        onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => ContractDetailPageLacimenterie(contractId: infoBarPhase['idContract'],)));
-        },
-      );
+  String getItemTileLeadingPhotoDefault(context, item) => ContractApiLacimenterie.getDefaultImageContract();
 
-  Card makeCard(context, contractByPhase) => Card(
-        elevation: 8.0,
-        margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-        child: Container(
-          child: makeListTile(context, contractByPhase),
-        ),
-      );
+  String getItemTileLeadingPhoto(context, item) => item['photo'];
 
-  List<Widget> buildListContracts(context) {
-    final List<Widget> listRow = [];
-    for (final contract in this.contractsPhases) {
-      listRow.add(makeCard(context, contract));
-    }
-    return listRow;
+  String getItemTileTitle(context, item) {
+      return item['projectName'];
   }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(children : this.buildListContracts(context));
+  
+  void onTapFunction(context, item) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ContractDetailPageLacimenterie(
+                  contractId: item['idContract'],
+                )));
   }
-
 }

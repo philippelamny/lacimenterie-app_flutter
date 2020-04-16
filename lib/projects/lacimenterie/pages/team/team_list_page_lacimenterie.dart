@@ -5,6 +5,7 @@ import 'package:lacimenterie/projects/lacimenterie/models/user_model_lacimenteri
 import 'package:lacimenterie/projects/lacimenterie/services/auth_service_lacimenterie.dart';
 import 'package:lacimenterie/projects/lacimenterie/widgets/app_bar_widget_lacimenterie.dart';
 import 'package:lacimenterie/projects/lacimenterie/widgets/header/agence_padding_header_widget.dart';
+import 'package:lacimenterie/projects/lacimenterie/widgets/list/team/team_list_widget.dart';
 import 'package:provider/provider.dart';
 
 class TeamListPageLacimenterie extends StatefulWidget {
@@ -33,9 +34,9 @@ class _TeamListPageLacimenterieState extends State<TeamListPageLacimenterie> {
     
     if (this._teamsList == null) {
       TeamApiLacimenterie api = new TeamApiLacimenterie();
-      api.getTeamListAction().then((dynamic contactInfo) {
+      api.getTeamListAction().then((dynamic teams) {
         setState(() {
-          this._teamsList = contactInfo;
+          this._teamsList = teams['items'];
         });
       });
     }
@@ -43,7 +44,7 @@ class _TeamListPageLacimenterieState extends State<TeamListPageLacimenterie> {
     if (this._generalInfo == null || this._teamsList == null) {
       return WaitingScreenLoaderWidget();
     }
-
+   
     return Scaffold(
       appBar: AppBarWidgetLacimenterie(context),
       body: IconTheme.merge(
@@ -53,7 +54,7 @@ class _TeamListPageLacimenterieState extends State<TeamListPageLacimenterie> {
         child: ListView(
           children: <Widget>[
             AgencePaddingHeaderWidget(this._generalInfo['photo'], this._generalInfo['agencyName'], this._generalInfo['userName']),
-            Text('page team')
+            TeamListWidget(this._teamsList)
           ],
         ),
       ),
