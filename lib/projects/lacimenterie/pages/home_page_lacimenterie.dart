@@ -7,6 +7,8 @@ import 'package:lacimenterie/projects/lacimenterie/services/auth_service_lacimen
 import 'package:lacimenterie/projects/lacimenterie/widgets/app_bar_widget_lacimenterie.dart';
 import 'package:lacimenterie/projects/lacimenterie/widgets/header/agence_padding_header_widget.dart';
 import 'package:lacimenterie/projects/lacimenterie/widgets/list/contract/contracts_benefits_list_widget.dart';
+import 'package:lacimenterie/projects/lacimenterie/widgets/list/contract/contracts_ca_facture_list_widget.dart';
+import 'package:lacimenterie/projects/lacimenterie/widgets/list/contract/contracts_ca_signe_list_widget.dart';
 import 'package:lacimenterie/projects/lacimenterie/widgets/list/contract/contracts_phases_list_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -19,6 +21,8 @@ class _HomePageLacimenterieState extends State<HomePageLacimenterie> {
   dynamic _generalInfo;
   List _byContractPhase;
   List _contractBenifits;
+  List _contractCAFacture;
+  List _contractCASigne;
   int _selectedIndex = 0;
 
   static const TextStyle optionStyle =
@@ -50,6 +54,8 @@ class _HomePageLacimenterieState extends State<HomePageLacimenterie> {
         setState(() {
           this._byContractPhase = analysis['byContractPhase']['infosBar'];
           this._contractBenifits = analysis['benefits']['infosBar'];
+          this._contractCAFacture = analysis['ca']['invoices'];
+          this._contractCASigne = analysis['ca']['contracts'];
         });
       });
     }
@@ -57,6 +63,8 @@ class _HomePageLacimenterieState extends State<HomePageLacimenterie> {
     if (this._generalInfo == null 
       || this._byContractPhase == null
       || this._contractBenifits == null
+      || this._contractCAFacture == null
+      || this._contractCASigne == null
       ) {
       return WaitingScreenLoaderWidget();
     }
@@ -65,15 +73,8 @@ class _HomePageLacimenterieState extends State<HomePageLacimenterie> {
       this._widgetOptions = <Widget>[
         ContractsPhasesListWidget(this._byContractPhase),
         ContractsBenefitsListWidget(this._contractBenifits),
-        
-        Text(
-          'Index 2: School',
-          style: optionStyle,
-        ),
-        Text(
-          'Index 3: School',
-          style: optionStyle,
-        ),
+        ContractsCAFactureListWidget(this._contractCAFacture),
+        ContractsCASigneListWidget(this._contractCASigne)
       ];
     }
 
