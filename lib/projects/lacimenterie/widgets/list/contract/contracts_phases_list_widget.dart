@@ -51,9 +51,9 @@ class ContractsPhasesListWidget extends ListWidgetAbstract {
               child: Padding(
                   padding: EdgeInsets.only(left: 10.0),
                   child: Text(
-                    subitem['totalRemaining'].toString() +
-                        ' / ' +
-                        subitem['total'].toString(),
+                    subitem['totalRemaining'].round().toString() +
+                        '€ / ' +
+                        subitem['total'].round().toString() + '€',
                     textAlign: TextAlign.right,
                   )),
             )

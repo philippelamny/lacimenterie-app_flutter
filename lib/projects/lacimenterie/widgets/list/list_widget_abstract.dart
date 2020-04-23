@@ -27,7 +27,7 @@ abstract class ListWidgetAbstract extends StatelessWidget implements ListWidgetI
         ),
         fit: BoxFit.scaleDown,
         width: 60,
-        imageUrl: getItemTileTitle(context, item) ?? getItemTileLeadingPhotoDefault(context, item),
+        imageUrl: ( getItemTileLeadingPhoto(context, item) != null && getItemTileLeadingPhoto(context, item) != "" ? getItemTileLeadingPhoto(context, item) : getItemTileLeadingPhotoDefault(context, item)),
       ),
     );
   }

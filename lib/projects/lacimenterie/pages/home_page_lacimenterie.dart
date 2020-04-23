@@ -6,6 +6,7 @@ import 'package:lacimenterie/projects/lacimenterie/models/user_model_lacimenteri
 import 'package:lacimenterie/projects/lacimenterie/services/auth_service_lacimenterie.dart';
 import 'package:lacimenterie/projects/lacimenterie/widgets/app_bar_widget_lacimenterie.dart';
 import 'package:lacimenterie/projects/lacimenterie/widgets/header/agence_padding_header_widget.dart';
+import 'package:lacimenterie/projects/lacimenterie/widgets/list/contract/contracts_benefits_list_widget.dart';
 import 'package:lacimenterie/projects/lacimenterie/widgets/list/contract/contracts_phases_list_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -17,6 +18,7 @@ class HomePageLacimenterie extends StatefulWidget {
 class _HomePageLacimenterieState extends State<HomePageLacimenterie> {
   dynamic _generalInfo;
   List _byContractPhase;
+  List _contractBenifits;
   int _selectedIndex = 0;
 
   static const TextStyle optionStyle =
@@ -47,21 +49,23 @@ class _HomePageLacimenterieState extends State<HomePageLacimenterie> {
       api.analyseAction().then((dynamic analysis) {
         setState(() {
           this._byContractPhase = analysis['byContractPhase']['infosBar'];
+          this._contractBenifits = analysis['benefits']['infosBar'];
         });
       });
     }
 
-    if (this._generalInfo == null || this._byContractPhase == null) {
+    if (this._generalInfo == null 
+      || this._byContractPhase == null
+      || this._contractBenifits == null
+      ) {
       return WaitingScreenLoaderWidget();
     }
 
     if (this._widgetOptions == null) {
       this._widgetOptions = <Widget>[
         ContractsPhasesListWidget(this._byContractPhase),
-        Text(
-          'Index 1: Business',
-          style: optionStyle,
-        ),
+        ContractsBenefitsListWidget(this._contractBenifits),
+        
         Text(
           'Index 2: School',
           style: optionStyle,
@@ -91,7 +95,7 @@ class _HomePageLacimenterieState extends State<HomePageLacimenterie> {
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(Icons.equalizer),
             title: Text('Temps restant'),
           ),
           BottomNavigationBarItem(
@@ -99,11 +103,11 @@ class _HomePageLacimenterieState extends State<HomePageLacimenterie> {
             title: Text('Bénéfice'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.school),
+            icon: Icon(Icons.assignment),
             title: Text('CA facturé'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.account_balance),
+            icon: Icon(Icons.receipt),
             title: Text('CA signé'),
           ),
         ],
