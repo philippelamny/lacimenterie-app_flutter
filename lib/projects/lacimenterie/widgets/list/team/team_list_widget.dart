@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lacimenterie/projects/lacimenterie/api/contract/contract_api_lacimenterie.dart';
 import 'package:lacimenterie/projects/lacimenterie/api/team/team_api_lacimenterie.dart';
 import 'package:lacimenterie/projects/lacimenterie/widgets/list/list_widget_abstract.dart';
 
@@ -64,7 +63,7 @@ class TeamListWidget extends ListWidgetAbstract {
 
   @override
   void onTapFunction(context, item) {
-    // TODO: implement onTapFunction
+    
   }
 
   @override
