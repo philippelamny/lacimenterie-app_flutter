@@ -37,7 +37,7 @@ class ContractApiLacimenterie extends ApiLacimenterieAbstract {
 
     var response = await this.get('site/info-summary/get');
     var values = jsonDecode(response.body);
-    return values;
+    return values['datas'];
   }
 
 }
