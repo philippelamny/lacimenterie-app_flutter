@@ -82,8 +82,11 @@ class _ContractDetailPageLacimenterieState extends State<ContractDetailPageLacim
         child: ListView(
           children: <Widget>[
             AgencePaddingHeaderWidget(this._generalInfo['photo'], this._generalInfo['agencyName'], this._generalInfo['userName']),
+            new Container(
+              height: 180,
+              child: CachedNetworkImageContractLacimenterie(this._contractInfo['photo'], fit: BoxFit.fitWidth),
+            ),
             
-            CachedNetworkImageContractLacimenterie(this._contractInfo['photo'], fit: BoxFit.fitWidth),
             Text(
               this._contractInfo['name']['value'] ?? '-'
               , textAlign: TextAlign.center
