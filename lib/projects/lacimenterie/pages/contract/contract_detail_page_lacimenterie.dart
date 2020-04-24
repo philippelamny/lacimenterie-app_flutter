@@ -1,7 +1,3 @@
-
-import 'dart:io';
-
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:lacimenterie/bundles/widgets/chart/circular_indicator_chart_widget.dart';
 import 'package:lacimenterie/bundles/widgets/loader/waiting_screen_loader_widget.dart';
@@ -12,6 +8,8 @@ import 'package:lacimenterie/projects/lacimenterie/widgets/app_bar_widget_lacime
 import 'package:lacimenterie/projects/lacimenterie/widgets/contract/cached_network_image_contract_lacimenterie.dart';
 import 'package:lacimenterie/projects/lacimenterie/widgets/header/agence_padding_header_widget.dart';
 import 'package:provider/provider.dart';
+
+import 'contract_photo_page_lacimenterie.dart';
 
 class ContractDetailPageLacimenterie extends StatefulWidget {
   ContractDetailPageLacimenterie({Key key, this.contractId})
@@ -27,27 +25,11 @@ class _ContractDetailPageLacimenterieState extends State<ContractDetailPageLacim
   AuthServiceLacimenterie auth;
   dynamic _generalInfo;
   dynamic _contractInfo;
-  dynamic _firstCamera;
-  File _image;
-
-  void initState () {
-    super.initState();
-    this.initCameraToTakePicture().then((firstCamera)  {
-      setState(() {
-        this._firstCamera = firstCamera;
-      });
-    });
-  }
-
-  Future getImage() async {
-    var image;
-    
-  }
 
   Padding getRowTitleValue(String title, String value) {
     return Padding(
     padding: EdgeInsets.all(5.0),
-    child: Row(    
+    child: Row(
         children: [
           Expanded(
             flex: 1,
@@ -61,13 +43,6 @@ class _ContractDetailPageLacimenterieState extends State<ContractDetailPageLacim
       ),
     );
     
-  }
-
-  /// TODO : Generaliser dans un tool
-  Future <CameraDescription> initCameraToTakePicture()  async{
-    WidgetsFlutterBinding.ensureInitialized();
-      final cameras = await availableCameras();
-      return cameras.first;
   }
 
   @override
@@ -101,17 +76,14 @@ class _ContractDetailPageLacimenterieState extends State<ContractDetailPageLacim
     return Scaffold(
       appBar: AppBarWidgetLacimenterie(context),
       floatingActionButton: FloatingActionButton(
-
-        child: Icon(Icons.camera_alt),
-
-        onPressed: () async {
-          try {
-          
-          } catch (e) {
-            // If an error occurs, log the error to the console.
-            print(e);
-          }
+        child: Icon(Icons.camera_alt), 
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(
+            builder: (context) => ContractPhotoPageLacimenterie(
+                  contractId: widget.contractId
+                )));
         },
+        
       ),
       body: IconTheme.merge(
         data: IconThemeData(
