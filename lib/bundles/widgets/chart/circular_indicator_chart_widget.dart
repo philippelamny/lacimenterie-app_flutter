@@ -43,7 +43,7 @@ class CircularIndicatorChartWidget extends CustomPainter{
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) {
-    // TODO: implement shouldRepaint
+    
     return true;
   }
 }

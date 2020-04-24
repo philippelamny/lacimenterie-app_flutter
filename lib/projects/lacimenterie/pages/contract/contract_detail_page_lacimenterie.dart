@@ -1,5 +1,7 @@
-import 'dart:ffi';
 
+import 'dart:io';
+
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:lacimenterie/bundles/widgets/chart/circular_indicator_chart_widget.dart';
 import 'package:lacimenterie/bundles/widgets/loader/waiting_screen_loader_widget.dart';
@@ -25,6 +27,22 @@ class _ContractDetailPageLacimenterieState extends State<ContractDetailPageLacim
   AuthServiceLacimenterie auth;
   dynamic _generalInfo;
   dynamic _contractInfo;
+  dynamic _firstCamera;
+  File _image;
+
+  void initState () {
+    super.initState();
+    this.initCameraToTakePicture().then((firstCamera)  {
+      setState(() {
+        this._firstCamera = firstCamera;
+      });
+    });
+  }
+
+  Future getImage() async {
+    var image;
+    
+  }
 
   Padding getRowTitleValue(String title, String value) {
     return Padding(
@@ -43,6 +61,13 @@ class _ContractDetailPageLacimenterieState extends State<ContractDetailPageLacim
       ),
     );
     
+  }
+
+  /// TODO : Generaliser dans un tool
+  Future <CameraDescription> initCameraToTakePicture()  async{
+    WidgetsFlutterBinding.ensureInitialized();
+      final cameras = await availableCameras();
+      return cameras.first;
   }
 
   @override
@@ -75,6 +100,19 @@ class _ContractDetailPageLacimenterieState extends State<ContractDetailPageLacim
 
     return Scaffold(
       appBar: AppBarWidgetLacimenterie(context),
+      floatingActionButton: FloatingActionButton(
+
+        child: Icon(Icons.camera_alt),
+
+        onPressed: () async {
+          try {
+          
+          } catch (e) {
+            // If an error occurs, log the error to the console.
+            print(e);
+          }
+        },
+      ),
       body: IconTheme.merge(
         data: IconThemeData(
           color: Theme.of(context).primaryColor,
@@ -82,11 +120,6 @@ class _ContractDetailPageLacimenterieState extends State<ContractDetailPageLacim
         child: ListView(
           children: <Widget>[
             AgencePaddingHeaderWidget(this._generalInfo['photo'], this._generalInfo['agencyName'], this._generalInfo['userName']),
-            new Container(
-              height: 180,
-              child: CachedNetworkImageContractLacimenterie(this._contractInfo['photo'], fit: BoxFit.fitWidth),
-            ),
-            
             Text(
               this._contractInfo['name']['value'] ?? '-'
               , textAlign: TextAlign.center
@@ -97,14 +130,11 @@ class _ContractDetailPageLacimenterieState extends State<ContractDetailPageLacim
               , textAlign: TextAlign.center
               , style: TextStyle(color: Colors.blueAccent, fontSize: 15.0)
             ),
-            Divider(
-              color: Colors.black,
+            Container(
+              height: 180,
+              child: CachedNetworkImageContractLacimenterie(this._contractInfo['photo'], fit: BoxFit.fitWidth),
             ),
-            this.getRowTitleValue("Maître d'ouvrage : ",  this._contractInfo['moa']['fullName']),
-            this.getRowTitleValue("Pôle : ",  this._contractInfo['pole']['name']),
-            this.getRowTitleValue("Programme : ",  this._contractInfo['program']['name']),
-            this.getRowTitleValue("Montant travaux : ",  this._contractInfo['amount_work']['value'] != null ? this._contractInfo['amount_work']['value'].toString() + ' €': '-'),
-            this.getRowTitleValue("Surface :	",  this._contractInfo['area']['value'] != null ? this._contractInfo['area']['value'].toString() + ' m²': '-'),
+            
             Center(
               child: 
               Row(
@@ -184,7 +214,15 @@ class _ContractDetailPageLacimenterieState extends State<ContractDetailPageLacim
               + " € sur "
               + (this._contractInfo['contractAnalysis']['totalHonoraryConsumed'] + this._contractInfo['contractAnalysis']['totalRemaining']).round().toString() 
               + " €"
-            ))
+            )),
+            Divider(
+              color: Colors.black,
+            ),
+            this.getRowTitleValue("Maître d'ouvrage : ",  this._contractInfo['moa']['fullName']),
+            this.getRowTitleValue("Pôle : ",  this._contractInfo['pole']['name']),
+            this.getRowTitleValue("Programme : ",  this._contractInfo['program']['name']),
+            this.getRowTitleValue("Montant travaux : ",  this._contractInfo['amount_work']['value'] != null ? this._contractInfo['amount_work']['value'].toString() + ' €': '-'),
+            this.getRowTitleValue("Surface :	",  this._contractInfo['area']['value'] != null ? this._contractInfo['area']['value'].toString() + ' m²': '-'),
           ],
         ),
       ),
