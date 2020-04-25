@@ -17,20 +17,28 @@ class DisplayPictureScreenCameraWidgetState extends State<DisplayPictureScreenCa
   
  
   //     child: Image.file(File(widget.imagePath)) //Image.asset('images/sample.jpg'),
-       
+  
+
       final controller = CropController(aspectRatio: 1000 / 667.0);
   double _rotation = 0;
   void _cropImage() async {
     final pixelRatio = MediaQuery.of(context).devicePixelRatio;
     final cropped = await controller.crop(pixelRatio: pixelRatio);
 
-    Navigator.of(context).push(
+    /*Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => Scaffold(
           appBar: AppBar(
             title: Text('Votre photo final'),
             centerTitle: true,
+            leading: IconButton(
+              icon: Icon(Icons.add_to_photos),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
           ),
+          
           body: Center(
             child: RawImage(
               image: cropped,
@@ -39,7 +47,9 @@ class DisplayPictureScreenCameraWidgetState extends State<DisplayPictureScreenCa
         ),
         fullscreenDialog: true,
       ),
-    );
+    );*/
+    // Ajouter l'image au projet
+    Navigator.pop(context);
   }
 
   @override
@@ -52,8 +62,8 @@ class DisplayPictureScreenCameraWidgetState extends State<DisplayPictureScreenCa
         actions: <Widget>[
           IconButton(
             onPressed: _cropImage,
-            tooltip: 'Crop',
-            icon: Icon(Icons.crop),
+            tooltip: 'Ajouter la photo au projet',
+            icon: Icon(Icons.add_to_photos),
           )
         ],
       ),
